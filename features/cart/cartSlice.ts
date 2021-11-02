@@ -1,8 +1,8 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit"
-import {ProductColorCart} from "../../types/cart"
-import {StoreState} from "../store"
+import {ProductColorCart} from "types/cart"
+import {StoreState} from "store"
 import {clearCart, updateQtyCart, fetchCart, addToCart, removeFromCart} from "./cartApi"
-import {getCookie, setCookie} from "../../utils/cookie"
+import {getCookie, setCookie} from "utils/cookie"
 import {useSelector} from "react-redux"
 import {checkDiscount} from "utils/formatPrice"
 

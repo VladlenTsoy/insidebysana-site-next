@@ -1,30 +1,52 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
-import {apiRequest} from "utils/api"
-import {ThunkProps} from "../store"
+// import {apiRequest} from "utils/api"
+import {ThunkProps} from "store"
 import {User} from "./user"
 import {getCookie, removeCookie} from "utils/cookie"
+import {DOMAIN_API} from "../../utils/api"
 
-// Аторизация пользователя
-export const authUser = createAsyncThunk<
-    {
-        token: string
-    },
+// Авторизация пользователя
+export const authUser = createAsyncThunk<{
+    token: string
+},
     {
         email: string
         password: string
     },
-    ThunkProps
->("user/auth", async (data, {signal}) => {
-    return await apiRequest("post", `client/login`, {data: {...data}, signal, type: "guest"})
+    ThunkProps>("user/auth", async (data, {signal}) => {
+    const response = await fetch(DOMAIN_API + "/client/login", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        signal,
+        body: JSON.stringify(data)
+    })
+    if (response.ok) return await response.json()
+    else return response.text()
 })
 
 // Вывод пользователя
 export const fetchUser = createAsyncThunk<User, undefined, ThunkProps>(
     "user/fetch",
     async (_, {signal}) => {
-        return (await apiRequest("get", `/`, {signal, type: "user"}).catch(e => {
-            if (e.message === "error_token") removeCookie("site_token_access")
-        })) as User
+        const response = await fetch(DOMAIN_API + "/user/", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            signal
+        })
+        if (response.ok) return await response.json()
+        else {
+            removeCookie("site_token_access")
+            return response.text()
+        }
+        // return (await apiRequest("get", `/`, {signal, type: "user"}).catch(e => {
+        //     if (e.message === "error_token") removeCookie("site_token_access")
+        // })) as User
     },
     {
         condition(_) {
@@ -35,51 +57,82 @@ export const fetchUser = createAsyncThunk<User, undefined, ThunkProps>(
 )
 
 // Завершения сеанса
-export const logoutUser = createAsyncThunk<
-    {
-        status: "success"
-    },
+export const logoutUser = createAsyncThunk<{
+    status: "success"
+},
     undefined,
-    ThunkProps
->("user/logout", async (_, {signal}) => {
-    return await apiRequest("delete", `logout`, {signal})
+    ThunkProps>("user/logout", async (_, {signal}) => {
+    const response = await fetch(DOMAIN_API + "/user/logout", {
+        method: "delete",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        signal
+    })
+    if (response.ok) return await response.json()
+    else return response.text()
 })
 
 //
-export const registrationUser = createAsyncThunk<
-    {
-        token: string
-    },
+export const registrationUser = createAsyncThunk<{
+    token: string
+},
     {
         full_name: string
         login: string
         password: string
     },
-    ThunkProps
->("user/registration", async (data, {signal}) => {
-    return await apiRequest("post", `client/registration`, {data, signal, type: "guest"})
+    ThunkProps>("user/registration", async (data, {signal}) => {
+    const response = await fetch(DOMAIN_API + "/client/registration", {
+        method: "post",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        signal,
+        body: JSON.stringify(data)
+    })
+    if (response.ok) return await response.json()
+    else return response.text()
 })
 
-export const updateUser = createAsyncThunk<
-    User,
+export const updateUser = createAsyncThunk<User,
     {
         full_name: string | null
         email: string | null
         phone: string | null
     },
-    ThunkProps
->("user/update", async (data, {signal}) => {
-    return await apiRequest("post", `/update`, {signal, data})
+    ThunkProps>("user/update", async (data, {signal}) => {
+    const response = await fetch(DOMAIN_API + "/user/update", {
+        method: "post",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        signal,
+        body: JSON.stringify(data)
+    })
+    if (response.ok) return await response.json()
+    else return response.text()
 })
 
-export const changePassword = createAsyncThunk<
-    {
-        status: string
-    },
+export const changePassword = createAsyncThunk<{
+    status: string
+},
     {
         password: string
     },
-    ThunkProps
->("user/change-password", async (data, {signal}) => {
-    return await apiRequest("post", `/change-password`, {signal, data})
+    ThunkProps>("user/change-password", async (data, {signal}) => {
+    const response = await fetch(DOMAIN_API + "/user/change-password", {
+        method: "post",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        signal,
+        body: JSON.stringify(data)
+    })
+    if (response.ok) return await response.json()
+    else return response.text()
 })

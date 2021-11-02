@@ -1,19 +1,20 @@
 import React from "react"
 import {GetStaticPaths, GetStaticProps, NextPage} from "next"
-import {GetProductIds, GetProductById} from "services/productApi"
+import {GetProductById, GetProductIds} from "services/productApi"
 import {ProductColor} from "types/productColor"
 import Layout from "layouts/Layout"
-import ProductMore from "features/product/product-more/ProductMore"
+import {GetCategories} from "../../services/categoryApi"
+import {Category} from "../../types/Category"
 
 interface ProductProps {
     product: ProductColor
+    categories: Category[]
 }
 
-const Product: NextPage<ProductProps> = ({product}) => {
+const Product: NextPage<ProductProps> = ({product, categories}) => {
     console.log(product)
     return (
-        <Layout>
-            <ProductMore product={product} />
+        <Layout categories={categories}>
         </Layout>
     )
 }
@@ -24,8 +25,10 @@ export default Product
 export const getStaticProps: GetStaticProps = async ({locale, params}: any) => {
     const {id} = params
     const product = await GetProductById(id)
+    const categories = await GetCategories()
     return {
         props: {
+            categories,
             product
         },
         revalidate: 10
