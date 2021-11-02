@@ -29,7 +29,7 @@ const Banner: React.FC<BannerProps> = ({banners}) => {
                     const onClickHandler = () => router.push(banner.button_link)
 
                     return <div className={styles.slider} key={key}>
-                        <ImageBlock src={banner.url_image} />
+                        <ImageBlock src={banner.url_image} priority={key === 0} />
                         <div className={styles.container}>
                             <div className={styles.info}>
                                 <div className={styles.title}>{banner.title}</div>

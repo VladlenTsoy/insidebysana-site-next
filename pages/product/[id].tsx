@@ -1,20 +1,32 @@
 import React from "react"
 import {GetStaticPaths, GetStaticProps, NextPage} from "next"
-import {GetProductById, GetProductIds} from "services/productApi"
-import {ProductColor} from "types/productColor"
+import {GetFeaturedProductsById, GetProductById, GetProductIds} from "services/productApi"
+import {ProductColor, ProductColorCard} from "types/productColor"
 import Layout from "layouts/Layout"
-import {GetCategories} from "../../services/categoryApi"
-import {Category} from "../../types/Category"
+import {GetCategories} from "services/categoryApi"
+import {Category} from "types/Category"
+import ProductMore from "features/product/product-more/ProductMore"
+import FeaturedProducts from "features/product/product-more/featured-and-recent/FeaturedProducts"
+import RecentProducts from "features/product/product-more/featured-and-recent/RecentProducts"
 
 interface ProductProps {
     product: ProductColor
+    featuredProducts: ProductColorCard[]
     categories: Category[]
 }
 
-const Product: NextPage<ProductProps> = ({product, categories}) => {
-    console.log(product)
+const Product: NextPage<ProductProps> = (
+    {
+        product,
+        categories,
+        featuredProducts
+    }
+) => {
     return (
         <Layout categories={categories}>
+            <ProductMore product={product} />
+            <FeaturedProducts products={featuredProducts} />
+            <RecentProducts />
         </Layout>
     )
 }
@@ -22,14 +34,16 @@ const Product: NextPage<ProductProps> = ({product, categories}) => {
 export default Product
 
 
-export const getStaticProps: GetStaticProps = async ({locale, params}: any) => {
+export const getStaticProps: GetStaticProps = async ({params}: any) => {
     const {id} = params
     const product = await GetProductById(id)
+    const featuredProducts = await GetFeaturedProductsById(id)
     const categories = await GetCategories()
     return {
         props: {
             categories,
-            product
+            product,
+            featuredProducts
         },
         revalidate: 10
     }

@@ -1,5 +1,5 @@
 import {DOMAIN_API} from "utils/api"
-import {ProductColorCard, ProductColor} from "types/productColor"
+import {ProductColor, ProductColorCard} from "types/productColor"
 
 type GetNewProductsType = () => Promise<ProductColorCard[]>
 
@@ -35,4 +35,16 @@ export const GetProductById: GetProductByIdType = async (id: string) => {
         console.error(e)
     }
     return null
+}
+
+type GetFeaturedProductsByIdType = (id: string) => Promise<ProductColorCard[]>
+
+export const GetFeaturedProductsById: GetFeaturedProductsByIdType = async (id) => {
+    try {
+        const response = await fetch(DOMAIN_API + `/featured-products/${id}`)
+        return await response.json()
+    } catch (e) {
+        console.error(e)
+    }
+    return []
 }

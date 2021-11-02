@@ -12,7 +12,7 @@ import {
 } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 // import {bannerApi} from "./home/bannerApi"
-// import {productApi} from "./products/productApi"
+import {productApi} from "features/product/productApi"
 // import {categoryApi} from "layouts/header/navigation/nav-desktop/products-menu/categories-menu/categoryApi"
 // import {lookbookApi} from "./lookbook/lookbookApi"
 // import {orderApi} from "./orders/orderApi"
@@ -27,7 +27,7 @@ import auth from "features/auth/authSlice"
 // import {countryApi} from "./cart/order/order-creation/left-block/information/delivery-address/countryApi"
 // import {addressApi} from "./account/delivery-addresses/addressApi"
 import {newsletterApi} from "./layouts/footer/newsletter/newsletterApi"
-// import {measurementApi} from "./products/product/details/measurements/measurementApi"
+import {measurementApi} from "features/product/product-more/details/measurements/measurementApi"
 
 
 const persistConfig = {
@@ -37,7 +37,7 @@ const persistConfig = {
 
 const persistedCombineReducers = persistCombineReducers(persistConfig, {
     // [bannerApi.reducerPath]: bannerApi.reducer,
-    // [productApi.reducerPath]: productApi.reducer,
+    [productApi.reducerPath]: productApi.reducer,
     // [categoryApi.reducerPath]: categoryApi.reducer,
     // [lookbookApi.reducerPath]: lookbookApi.reducer,
     // [orderApi.reducerPath]: orderApi.reducer,
@@ -46,12 +46,12 @@ const persistedCombineReducers = persistCombineReducers(persistConfig, {
     // [countryApi.reducerPath]: countryApi.reducer,
     // [addressApi.reducerPath]: addressApi.reducer,
     [newsletterApi.reducerPath]: newsletterApi.reducer,
-    // [measurementApi.reducerPath]: measurementApi.reducer,
+    [measurementApi.reducerPath]: measurementApi.reducer,
     // [additionalServiceApi.reducerPath]: additionalServiceApi.reducer,
     wishlist,
     app,
     cart,
-    auth,
+    auth
     // product
 })
 
@@ -64,13 +64,15 @@ export const store = configureStore({
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
             }
         })
-            // .concat(addressApi.middleware)
+            .concat(productApi.middleware)
+            .concat(measurementApi.middleware)
 })
 
 export const persistor = persistStore(store)
 
 export type StoreState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+
 export interface ThunkProps {
     dispatch: AppDispatch
     state: StoreState

@@ -7,9 +7,10 @@ import WarningOutlined from "@ant-design/icons/WarningOutlined"
 interface ImageBlockProps {
     src: string
     alt?: string
+    priority?: boolean
 }
 
-const ImageBlock: React.FC<ImageBlockProps> = ({src, alt}) => {
+const ImageBlock: React.FC<ImageBlockProps> = ({src, alt, priority}) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
 
@@ -39,7 +40,7 @@ const ImageBlock: React.FC<ImageBlockProps> = ({src, alt}) => {
                             <LoadingOutlined />
                         </div> :
                         <div className={styled.image}>
-                            <NextImage src={src} alt={alt} layout="fill" />
+                            <NextImage src={src} alt={alt} layout="fill" priority={priority} />
                         </div> :
                     <div className={styled.loading}>
                         <WarningOutlined />
