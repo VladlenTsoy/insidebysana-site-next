@@ -2,7 +2,6 @@ const withPlugins = require("next-compose-plugins")
 const withImages = require("next-images")
 
 const nextConfig = {
-    target: "serverless",
     images: {
         disableStaticImages: true,
         deviceSizes: [320, 480, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
