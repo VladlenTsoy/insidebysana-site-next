@@ -1,6 +1,6 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit"
 import {Wishlist} from "types/wishlist"
-import {StoreState} from "../store"
+import {StoreState} from "store"
 import {removeFromWishlist, fetchWishlist, addToWishlist} from "./wishlistApi"
 import {getCookie, setCookie} from "../../utils/cookie"
 import {useSelector} from "react-redux"
