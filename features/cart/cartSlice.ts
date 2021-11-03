@@ -17,7 +17,7 @@ export interface StateProps {
 }
 
 // Вывод локальной корзины
-const getLocalCart = () => JSON.parse(getCookie("InsideBySana_Cart") || "[]")
+const getLocalCart = () => JSON.parse(getCookie("InsideBySana_Cart") === "undefined" ? "[]" : getCookie("InsideBySana_Cart") || "[]")
 // Добавить в локальную корзину
 const setLocalCart = (skus: ProductColorCart["sku"][]) =>
     setCookie("InsideBySana_Cart", JSON.stringify(skus), {expires: 7})
@@ -49,15 +49,15 @@ const cartPromotion = (products: ProductColorCart[], state: StoreState["cart"]) 
                 const count = productMinPriceIds.reduce((n, x) => n + (x === product.sku), 0)
                 return count
                     ? {
-                          ...product,
-                          promotion: count,
-                          total_price: checkDiscount(product.price * (product.qty - count), product.discount)
-                      }
+                        ...product,
+                        promotion: count,
+                        total_price: checkDiscount(product.price * (product.qty - count), product.discount)
+                    }
                     : {
-                          ...product,
-                          promotion: 0,
-                          total_price: checkDiscount(product.price * product.qty, product.discount)
-                      }
+                        ...product,
+                        promotion: 0,
+                        total_price: checkDiscount(product.price * product.qty, product.discount)
+                    }
             })
             cartAdapter.setMany(state, _products)
         } else {

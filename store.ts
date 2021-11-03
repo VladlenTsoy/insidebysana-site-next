@@ -14,7 +14,7 @@ import storage from "redux-persist/lib/storage"
 // import {bannerApi} from "./home/bannerApi"
 import {productApi} from "features/product/productApi"
 // import {categoryApi} from "layouts/header/navigation/nav-desktop/products-menu/categories-menu/categoryApi"
-// import {lookbookApi} from "./lookbook/lookbookApi"
+import {lookbookApi} from "features/lookbook/lookbookApi"
 // import {orderApi} from "./orders/orderApi"
 import wishlist from "features/wishlist/wishlistSlice"
 import cart from "features/cart/cartSlice"
@@ -39,7 +39,7 @@ const persistedCombineReducers = persistCombineReducers(persistConfig, {
     // [bannerApi.reducerPath]: bannerApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     // [categoryApi.reducerPath]: categoryApi.reducer,
-    // [lookbookApi.reducerPath]: lookbookApi.reducer,
+    [lookbookApi.reducerPath]: lookbookApi.reducer,
     // [orderApi.reducerPath]: orderApi.reducer,
     // [deliveryApi.reducerPath]: deliveryApi.reducer,
     // [cityApi.reducerPath]: cityApi.reducer,
@@ -66,6 +66,7 @@ export const store = configureStore({
         })
             .concat(productApi.middleware)
             .concat(measurementApi.middleware)
+            .concat(lookbookApi.middleware)
 })
 
 export const persistor = persistStore(store)

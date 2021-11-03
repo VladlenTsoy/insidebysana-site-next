@@ -8,9 +8,23 @@ interface ImageBlockProps {
     src: string
     alt?: string
     priority?: boolean
+    width?: number
+    height?: number
+    layout?: "fill" | "fixed" | "intrinsic" | "responsive"
+    quality?: number | string;
 }
 
-const ImageBlock: React.FC<ImageBlockProps> = ({src, alt, priority}) => {
+const ImageBlock: React.FC<ImageBlockProps> = (
+    {
+        src,
+        alt,
+        priority,
+        width,
+        height,
+        layout = "fill",
+        quality
+    }
+) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
 
@@ -40,7 +54,16 @@ const ImageBlock: React.FC<ImageBlockProps> = ({src, alt, priority}) => {
                             <LoadingOutlined />
                         </div> :
                         <div className={styled.image}>
-                            <NextImage src={src} alt={alt} layout="fill" priority={priority} />
+                            <NextImage
+                                src={src}
+                                alt={alt}
+                                layout={layout}
+                                priority={priority}
+                                width={width}
+                                height={height}
+                                objectFit="cover"
+                                quality={quality}
+                            />
                         </div> :
                     <div className={styled.loading}>
                         <WarningOutlined />
