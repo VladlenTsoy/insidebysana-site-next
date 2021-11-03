@@ -13,11 +13,17 @@ interface ButtonProps {
     icon?: React.ReactFragment
     onClick?: HTMLButtonElement["click"]
     className?: HTMLButtonElement["className"]
-    typeHtml?: 'submit' | 'reset' | 'button'
+    typeHtml?: "submit" | "reset" | "button"
+    children: React.ReactNode
 }
 
-const Button: React.FC<ButtonProps> = (
+interface ButtonRefProps extends ButtonProps {
+    innerRef: React.Ref<HTMLButtonElement>
+}
+
+const Button: React.FC<ButtonRefProps> = (
     {
+        innerRef,
         children,
         typeHtml = "button",
         size = "middle",
@@ -34,6 +40,7 @@ const Button: React.FC<ButtonProps> = (
 ) => {
     return (
         <button
+            ref={innerRef}
             type={typeHtml}
             disabled={disabled || loading}
             onClick={onClick}
@@ -55,4 +62,9 @@ const Button: React.FC<ButtonProps> = (
     )
 }
 
-export default Button
+export default React.forwardRef<HTMLButtonElement, ButtonProps>(
+    (props, ref) =>
+        <Button innerRef={ref} {...props} >
+            {props.children}
+        </Button>
+)
