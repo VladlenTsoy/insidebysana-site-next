@@ -1,22 +1,18 @@
 import React from "react"
 import Title from "components/title/Title"
 import styled from "./Lookbook.module.css"
-import LoaderBlock from "components/loader-block/LoaderBlock"
-import EmptyBlock from "components/empty-block/EmptyBlock"
-import {useGetLookbookByLatestQuery, useGetLookbookCategoriesQuery} from "./lookbookApi"
 import Link from "next/link"
+import {ResponseLookbook} from "services/lookbookApi"
+import {LookbookCategory} from "types/Lookbook"
 
 interface LookbookCategoryProps {
-    categoryId: number
+    lookbookCategories: LookbookCategory[]
 }
 
-export const LookbookCategories: React.FC<LookbookCategoryProps> = ({categoryId}) => {
-    const {data: categories, isLoading} = useGetLookbookCategoriesQuery(categoryId)
-    if (isLoading) return <LoaderBlock />
+export const LookbookCategories: React.FC<LookbookCategoryProps> = ({lookbookCategories}) => {
     return (
         <>
-            {categories &&
-            categories.map(category => (
+            {lookbookCategories.map(category => (
                 <Link href={`/lookbook/${category.id}`} key={category.id} passHref>
                     <a className={styled.lookbookItem}>
                         <img src={category.url_image} alt={`lookbook-${category.id}`} />
@@ -27,25 +23,21 @@ export const LookbookCategories: React.FC<LookbookCategoryProps> = ({categoryId}
     )
 }
 
-const Lookbook: React.FC = () => {
-    const {data: lookbook, isLoading} = useGetLookbookByLatestQuery()
+interface LookbookProps {
+    lookbook: ResponseLookbook
+}
 
+const Lookbook: React.FC<LookbookProps> = ({lookbook, children}) => {
     return (
         <>
-            <Title level={1}>{isLoading ? "LOOKBOOK" : lookbook?.title}</Title>
+            <Title level={1}>{lookbook?.title}</Title>
             <div className="container">
-                {isLoading ? (
-                    <LoaderBlock />
-                ) : lookbook ? (
-                    lookbook.images.map(item => (
-                        <div className={styled.lookbookItem} key={item.id}>
-                            <img src={item.url_image} alt={`lookbook-${item.id}`} />
-                        </div>
-                    ))
-                ) : (
-                    <EmptyBlock />
-                )}
-                {lookbook && <LookbookCategories categoryId={lookbook.id} />}
+                {lookbook.images.map(item => (
+                    <div className={styled.lookbookItem} key={item.id}>
+                        <img src={item.url_image} alt={`lookbook-${item.id}`} />
+                    </div>
+                ))}
+                {children}
             </div>
         </>
     )

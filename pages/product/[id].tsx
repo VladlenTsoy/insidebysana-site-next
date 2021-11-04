@@ -33,7 +33,6 @@ const Product: NextPage<ProductProps> = (
 
 export default Product
 
-
 export const getStaticProps: GetStaticProps = async ({params}: any) => {
     const {id} = params
     const product = await GetProductById(id)
