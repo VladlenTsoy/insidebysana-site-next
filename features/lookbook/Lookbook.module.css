@@ -2,6 +2,17 @@
 
 }
 
-.lookbookItem img {
+.lookbookItem .image {
+    position: relative;
     width: 100%;
+    margin-bottom: 1.25rem;
+    background: var(--secondary);
+    user-select: none;
+    display: block;
+}
+
+.lookbookItem .image:before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% / 2);
 }
