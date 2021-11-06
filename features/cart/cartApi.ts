@@ -8,7 +8,7 @@ export const addToCart = createAsyncThunk<ProductColorCart["sku"], ProductColorC
     (sku, {getState}) => {
         const {auth} = getState()
         if (auth.detail) {
-            fetch(DOMAIN_API + "/user/cart/add", {
+            fetch(DOMAIN_API + "/client/cart/add", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -24,7 +24,7 @@ export const addToCart = createAsyncThunk<ProductColorCart["sku"], ProductColorC
 export const clearCart = createAsyncThunk<[], undefined, ThunkProps>("cart/clear", (_, {getState}) => {
     const {auth} = getState()
     if (auth.detail) {
-        fetch(DOMAIN_API + "/user/cart/clear", {
+        fetch(DOMAIN_API + "/client/cart/clear", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -43,9 +43,10 @@ export const fetchCart = createAsyncThunk<{
     ThunkProps>("cart/fetch", async (_, {signal, getState}) => {
     const {auth, cart} = getState()
     if (auth.detail) {
-        const response = await fetch(DOMAIN_API + "/user/cart", {
+        const response = await fetch(DOMAIN_API + "/client/cart", {
             method: "POST",
             headers: {
+                Authorization: "Bearer " + auth.token,
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
@@ -53,7 +54,7 @@ export const fetchCart = createAsyncThunk<{
             body: JSON.stringify({skus: cart.skus})
         })
         if (response.ok) return await response.json()
-        else return response.text()
+        throw await response.json()
     }
     const response = await fetch(DOMAIN_API + "/cart", {
         method: "POST",
@@ -65,7 +66,7 @@ export const fetchCart = createAsyncThunk<{
         body: JSON.stringify({skus: cart.skus})
     })
     if (response.ok) return await response.json()
-    else return response.text()
+    throw await response.json()
 })
 
 export const removeFromCart = createAsyncThunk<ProductColorCart["sku"], ProductColorCart["sku"], ThunkProps>(
@@ -73,7 +74,7 @@ export const removeFromCart = createAsyncThunk<ProductColorCart["sku"], ProductC
     (sku, {getState}) => {
         const {auth} = getState()
         if (auth.detail) {
-            fetch(DOMAIN_API + "/user/cart/remove", {
+            fetch(DOMAIN_API + "/client/cart/remove", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",

@@ -44,6 +44,7 @@ const authSlice = createSlice({
         })
         // Авторизация пользователя
         builder.addCase(registrationUser.fulfilled, (state, action) => {
+            console.log(action.payload)
             state.token = action.payload.token
             updateToken(action.payload.token)
         })

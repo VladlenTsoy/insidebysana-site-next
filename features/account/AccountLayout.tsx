@@ -1,34 +1,25 @@
-import React, {useEffect} from "react"
-import LoaderBlock from "components/loader-block/LoaderBlock"
+import React from "react"
+import styled from "./AccountLayout.module.css"
 import Button from "components/button/Button"
-import {logoutUser} from "../auth/authApi"
-import {useDispatch} from "store"
+import Link from "next/link"
 import HistoryOutlined from "@ant-design/icons/HistoryOutlined"
 import CarOutlined from "@ant-design/icons/CarOutlined"
 import IdcardOutlined from "@ant-design/icons/IdcardOutlined"
 import KeyOutlined from "@ant-design/icons/KeyOutlined"
-import styled from "./AccountLayout.module.css"
-import {useUser} from "features/auth/authSlice"
+import {useDispatch} from "../../store"
+import {useUser} from "../auth/authSlice"
 import {useRouter} from "next/router"
-import Link from "next/link"
+import {logoutUser} from "../auth/authApi"
 
-const Account = () => {
+const AccountLayout: React.FC = ({children}) => {
     const dispatch = useDispatch()
-    const {detail, loading} = useUser()
+    const {detail} = useUser()
     const router = useRouter()
 
     const logout = () => {
         dispatch(logoutUser())
+        router.push("/")
     }
-
-    useEffect(() => {
-        if (detail)
-            router.push("/account/order-history")
-        else
-            router.push("/auth/login")
-    }, [detail])
-
-    if (loading) return <LoaderBlock />
 
     return (
         <div className="container">
@@ -57,10 +48,11 @@ const Account = () => {
                     </Link>
                 </div>
                 <div className={styled.container}>
+                    {children}
                 </div>
             </div>
         </div>
     )
 }
 
-export default Account
+export default AccountLayout

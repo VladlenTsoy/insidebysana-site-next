@@ -1,9 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
-// import {apiRequest} from "utils/api"
 import {ThunkProps} from "store"
-import {User} from "./user"
+import {Client as User} from "types/Client"
 import {getCookie, removeCookie} from "utils/cookie"
-import {DOMAIN_API} from "../../utils/api"
+import {DOMAIN_API} from "utils/api"
 
 // Авторизация пользователя
 export const authUser = createAsyncThunk<{
@@ -24,16 +23,17 @@ export const authUser = createAsyncThunk<{
         body: JSON.stringify(data)
     })
     if (response.ok) return await response.json()
-    else return response.text()
+    throw await response.json()
 })
 
 // Вывод пользователя
 export const fetchUser = createAsyncThunk<User, undefined, ThunkProps>(
     "user/fetch",
-    async (_, {signal}) => {
-        const response = await fetch(DOMAIN_API + "/user/", {
-            method: "POST",
+    async (_, {signal, getState}) => {
+        const {auth} = getState()
+        const response = await fetch(DOMAIN_API + "/client", {
             headers: {
+                Authorization: "Bearer " + auth.token,
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
@@ -42,11 +42,8 @@ export const fetchUser = createAsyncThunk<User, undefined, ThunkProps>(
         if (response.ok) return await response.json()
         else {
             removeCookie("site_token_access")
-            return response.text()
+            throw await response.json()
         }
-        // return (await apiRequest("get", `/`, {signal, type: "user"}).catch(e => {
-        //     if (e.message === "error_token") removeCookie("site_token_access")
-        // })) as User
     },
     {
         condition(_) {
@@ -61,17 +58,19 @@ export const logoutUser = createAsyncThunk<{
     status: "success"
 },
     undefined,
-    ThunkProps>("user/logout", async (_, {signal}) => {
-    const response = await fetch(DOMAIN_API + "/user/logout", {
+    ThunkProps>("user/logout", async (_, {signal, getState}) => {
+    const {auth} = getState()
+    const response = await fetch(DOMAIN_API + "/client/logout", {
         method: "delete",
         headers: {
+            Authorization: "Bearer " + auth.token,
             Accept: "application/json",
             "Content-Type": "application/json"
         },
         signal
     })
     if (response.ok) return await response.json()
-    else return response.text()
+    throw await response.json()
 })
 
 //
@@ -94,7 +93,7 @@ export const registrationUser = createAsyncThunk<{
         body: JSON.stringify(data)
     })
     if (response.ok) return await response.json()
-    else return response.text()
+    throw await response.json()
 })
 
 export const updateUser = createAsyncThunk<User,
@@ -103,10 +102,12 @@ export const updateUser = createAsyncThunk<User,
         email: string | null
         phone: string | null
     },
-    ThunkProps>("user/update", async (data, {signal}) => {
-    const response = await fetch(DOMAIN_API + "/user/update", {
+    ThunkProps>("user/update", async (data, {signal, getState}) => {
+    const {auth} = getState()
+    const response = await fetch(DOMAIN_API + "/client/update", {
         method: "post",
         headers: {
+            Authorization: "Bearer " + auth.token,
             Accept: "application/json",
             "Content-Type": "application/json"
         },
@@ -114,7 +115,7 @@ export const updateUser = createAsyncThunk<User,
         body: JSON.stringify(data)
     })
     if (response.ok) return await response.json()
-    else return response.text()
+    throw await response.json()
 })
 
 export const changePassword = createAsyncThunk<{
@@ -123,10 +124,12 @@ export const changePassword = createAsyncThunk<{
     {
         password: string
     },
-    ThunkProps>("user/change-password", async (data, {signal}) => {
-    const response = await fetch(DOMAIN_API + "/user/change-password", {
+    ThunkProps>("user/change-password", async (data, {signal, getState}) => {
+    const {auth} = getState()
+    const response = await fetch(DOMAIN_API + "/client/change-password", {
         method: "post",
         headers: {
+            Authorization: "Bearer " + auth.token,
             Accept: "application/json",
             "Content-Type": "application/json"
         },
@@ -134,5 +137,5 @@ export const changePassword = createAsyncThunk<{
         body: JSON.stringify(data)
     })
     if (response.ok) return await response.json()
-    else return response.text()
+    throw await response.json()
 })

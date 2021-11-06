@@ -6,7 +6,7 @@ import Button from "components/button/Button"
 import {useDispatch} from "store"
 import Alert from "components/alert/Alert"
 import {unwrapResult} from "@reduxjs/toolkit"
-import {changePassword} from "../../auth/authApi"
+import {changePassword} from "features/auth/authApi"
 
 const ChangePassword: React.FC = () => {
     const [error, setError] = useState(null)
@@ -15,16 +15,16 @@ const ChangePassword: React.FC = () => {
     const dispatch = useDispatch()
 
     const onSubmitHandler = async (values: any, {setSubmitting}: any) => {
-        try {
-            const promise = await dispatch(changePassword(values))
-            unwrapResult(promise)
-            setError(null)
-            setSuccess(true)
-        } catch (e) {
+        dispatch(changePassword(values))
+            .then(unwrapResult)
+            .then(() => {
+                setError(null)
+                setSuccess(true)
+            }).catch(e => {
             setError(e.message)
             setSubmitting(false)
             setSuccess(false)
-        }
+        })
     }
 
     return (
@@ -41,15 +41,15 @@ const ChangePassword: React.FC = () => {
                 onSubmit={onSubmitHandler}
             >
                 {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    setFieldValue,
-                    handleBlur,
-                    handleSubmit,
-                    isSubmitting
-                }) => (
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      setFieldValue,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting
+                  }) => (
                     <form onSubmit={handleSubmit}>
                         <div className={styled.contact}>
                             {success && <Alert type="success">Вы успешно сменили пароль!</Alert>}

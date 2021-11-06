@@ -1,11 +1,9 @@
-import {getCookie, removeCookie, setCookie} from "./cookie"
+import {removeCookie, setCookie} from "./cookie"
 
 export const DOMAIN_API =
     process.env.NODE_ENV === "production" ? "https://api.insidebysana.uz/api" : "http://localhost:9000/api"
 
-const isSite = process.env.REACT_APP_BUILD_TARGET === "site"
-const TOKEN_NAME = isSite ? "site_token_access" : "crm_token_access"
-const TOKEN = getCookie(TOKEN_NAME)
+const TOKEN_NAME = "site_token_access"
 
 export const updateToken = (token: string | null) => {
     if (token) setCookie(TOKEN_NAME, token, {expires: 30})

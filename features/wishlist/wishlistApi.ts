@@ -9,9 +9,10 @@ export const addToWishlist = createAsyncThunk<ProductColorCart["id"], ProductCol
     (productColorId, {getState}) => {
         const {auth} = getState()
         if (auth.detail) {
-            fetch(DOMAIN_API + "/user/wishlist/add", {
+            fetch(DOMAIN_API + "/client/wishlist/add", {
                 method: "POST",
                 headers: {
+                    Authorization: "Bearer " + auth.token,
                     Accept: "application/json",
                     "Content-Type": "application/json"
                 },
@@ -27,7 +28,7 @@ export const removeFromWishlist = createAsyncThunk<ProductColorCart["id"],
     ThunkProps>("wishlist/remove", (productColorId, {getState}) => {
     const {auth} = getState()
     if (auth.detail) {
-        fetch(DOMAIN_API + "/user/wishlist/remove", {
+        fetch(DOMAIN_API + "/client/wishlist/remove", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -48,9 +49,10 @@ export const fetchWishlist = createAsyncThunk<{
     const {wishlist, auth} = getState()
     const productColorIds = wishlist.items
     if (auth.detail) {
-        const response = await fetch(DOMAIN_API + "/user/wishlist", {
+        const response = await fetch(DOMAIN_API + "/client/wishlist", {
             method: "POST",
             headers: {
+                Authorization: "Bearer " + auth.token,
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
@@ -58,7 +60,7 @@ export const fetchWishlist = createAsyncThunk<{
             body: JSON.stringify({productColorIds})
         })
         if (response.ok) return await response.json()
-        else return response.text()
+        throw await response.json()
     }
     const response = await fetch(DOMAIN_API + "/wishlist", {
         method: "POST",
@@ -70,5 +72,5 @@ export const fetchWishlist = createAsyncThunk<{
         body: JSON.stringify({productColorIds})
     })
     if (response.ok) return await response.json()
-    else return response.text()
+    throw await response.json()
 })

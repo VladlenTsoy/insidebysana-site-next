@@ -11,20 +11,18 @@ import {
     persistCombineReducers
 } from "redux-persist"
 import storage from "redux-persist/lib/storage"
-// import {bannerApi} from "./home/bannerApi"
 import {productApi} from "features/product/productApi"
-// import {categoryApi} from "layouts/header/navigation/nav-desktop/products-menu/categories-menu/categoryApi"
-// import {orderApi} from "./orders/orderApi"
+import {orderApi} from "features/order/orderApi"
 import wishlist from "features/wishlist/wishlistSlice"
 import cart from "features/cart/cartSlice"
 import app from "layouts/appSlice"
 import auth from "features/auth/authSlice"
-// import product from "./products/productSlice"
+import product from "features/product/productSlice"
 // import {deliveryApi} from "./cart/order/order-creation/left-block/delivery/deliveryApi"
 // import {additionalServiceApi} from "./cart/order/order-creation/left-block/additional-service/additionalServiceApi"
 // import {cityApi} from "./cart/order/order-creation/left-block/information/delivery-address/cityApi"
 // import {countryApi} from "./cart/order/order-creation/left-block/information/delivery-address/countryApi"
-// import {addressApi} from "./account/delivery-addresses/addressApi"
+import {addressApi} from "features/account/delivery-addresses/addressApi"
 import {newsletterApi} from "./layouts/footer/newsletter/newsletterApi"
 import {measurementApi} from "features/product/product-more/details/measurements/measurementApi"
 
@@ -35,22 +33,20 @@ const persistConfig = {
 }
 
 const persistedCombineReducers = persistCombineReducers(persistConfig, {
-    // [bannerApi.reducerPath]: bannerApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
-    // [categoryApi.reducerPath]: categoryApi.reducer,
-    // [orderApi.reducerPath]: orderApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
     // [deliveryApi.reducerPath]: deliveryApi.reducer,
     // [cityApi.reducerPath]: cityApi.reducer,
     // [countryApi.reducerPath]: countryApi.reducer,
-    // [addressApi.reducerPath]: addressApi.reducer,
+    [addressApi.reducerPath]: addressApi.reducer,
     [newsletterApi.reducerPath]: newsletterApi.reducer,
     [measurementApi.reducerPath]: measurementApi.reducer,
     // [additionalServiceApi.reducerPath]: additionalServiceApi.reducer,
     wishlist,
     app,
     cart,
-    auth
-    // product
+    auth,
+    product
 })
 
 export const store = configureStore({
@@ -62,6 +58,9 @@ export const store = configureStore({
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
             }
         })
+            .concat(newsletterApi.middleware)
+            .concat(addressApi.middleware)
+            .concat(orderApi.middleware)
             .concat(productApi.middleware)
             .concat(measurementApi.middleware)
 })
