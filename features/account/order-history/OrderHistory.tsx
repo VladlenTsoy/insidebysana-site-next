@@ -19,10 +19,7 @@ const OrderHistory: React.FC = () => {
     const {data: orders = [], isLoading} = useGetOrdersQuery()
 
     if (isLoading) return <LoaderBlock />
-
     if (!orders.length) return <EmptyBlock />
-
-    console.log(orders)
 
     return (
         <div id="profile-orders-collapse">
@@ -50,6 +47,7 @@ const OrderHistory: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className={styled.rightBlock}>
+                                        {order.promo_code && order.promo_code.discount !== 0 &&
                                         <div className={styled.discount}>
                                             Скидка:{" "}
                                             <span>
@@ -59,7 +57,7 @@ const OrderHistory: React.FC = () => {
                                                         : `${order.promo_code.discount}%`
                                                     : 0}
                                             </span>
-                                        </div>
+                                        </div>}
                                         <div className={styled.total_price}>
                                             {formatPrice(order.total_price)} сум
                                         </div>
@@ -71,35 +69,37 @@ const OrderHistory: React.FC = () => {
                         <div className={styled.wrapperTable}>
                             <table className={styled.tableProducts}>
                                 <thead>
-                                    <tr>
-                                        <th>SKU</th>
-                                        <th>Фото</th>
-                                        <th>Название</th>
-                                        <th>Размер</th>
-                                        <th>Кол-во</th>
-                                        <th>Стоимость</th>
-                                    </tr>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Фото</th>
+                                    <th>Название</th>
+                                    <th>Размер</th>
+                                    <th>Кол-во</th>
+                                    <th>Стоимость</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {order.productColors.map((productColor: any) => (
-                                        <tr key={`PC${productColor.id}S${productColor.size_id}`}>
-                                            <td>{`PC${productColor.id}S${productColor.size_id}`}</td>
-                                            <td>
+                                {order.productColors.map((productColor: any) => (
+                                    <tr key={`PC${productColor.id}S${productColor.size_id}`}>
+                                        <td>{`PC${productColor.id}S${productColor.size_id}`}</td>
+                                        <td>
+                                            <div className={styled.imageBlock}>
                                                 <div className={styled.image}>
                                                     <ImageBlock
                                                         src={productColor.url_thumbnail}
                                                         alt={productColor.title}
                                                     />
                                                 </div>
-                                            </td>
-                                            <td>{productColor.title}</td>
-                                            <td>{productColor.size_title}</td>
-                                            <td>{productColor.qty}</td>
-                                            <td>
-                                                <div>{formatPrice(productColor.price)} сум</div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                            </div>
+                                        </td>
+                                        <td>{productColor.title}</td>
+                                        <td>{productColor.size_title}</td>
+                                        <td>{productColor.qty}</td>
+                                        <td>
+                                            <div>{formatPrice(productColor.price)} сум</div>
+                                        </td>
+                                    </tr>
+                                ))}
                                 </tbody>
                             </table>
                         </div>

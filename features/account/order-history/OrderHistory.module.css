@@ -78,12 +78,36 @@
     white-space: nowrap;
 }
 
+
+.imageBlock {
+    position: relative;
+    width: 100%;
+    max-width: 100px;
+    margin-bottom: 1.25rem;
+    background: var(--secondary);
+    user-select: none;
+    display: block;
+}
+
+.imageBlock:before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% / 0.8);
+}
+
 .image {
-    width: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    overflow: hidden;
 }
 
 @media (max-width: 767px) {
-    .image {
-        width: 60px;
+    .imageBlock {
+        max-width: 60px;
     }
 }
