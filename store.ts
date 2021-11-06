@@ -18,10 +18,10 @@ import cart from "features/cart/cartSlice"
 import app from "layouts/appSlice"
 import auth from "features/auth/authSlice"
 import product from "features/product/productSlice"
-// import {deliveryApi} from "./cart/order/order-creation/left-block/delivery/deliveryApi"
-// import {additionalServiceApi} from "./cart/order/order-creation/left-block/additional-service/additionalServiceApi"
-// import {cityApi} from "./cart/order/order-creation/left-block/information/delivery-address/cityApi"
-// import {countryApi} from "./cart/order/order-creation/left-block/information/delivery-address/countryApi"
+import {deliveryApi} from "features/cart/order/order-creation/left-block/delivery/deliveryApi"
+import {additionalServiceApi} from "features/cart/order/order-creation/left-block/additional-service/additionalServiceApi"
+import {cityApi} from "features/cart/order/order-creation/left-block/information/delivery-address/cityApi"
+import {countryApi} from "features/cart/order/order-creation/left-block/information/delivery-address/countryApi"
 import {addressApi} from "features/account/delivery-addresses/addressApi"
 import {newsletterApi} from "./layouts/footer/newsletter/newsletterApi"
 import {measurementApi} from "features/product/product-more/details/measurements/measurementApi"
@@ -35,13 +35,13 @@ const persistConfig = {
 const persistedCombineReducers = persistCombineReducers(persistConfig, {
     [productApi.reducerPath]: productApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
-    // [deliveryApi.reducerPath]: deliveryApi.reducer,
-    // [cityApi.reducerPath]: cityApi.reducer,
-    // [countryApi.reducerPath]: countryApi.reducer,
+    [deliveryApi.reducerPath]: deliveryApi.reducer,
+    [cityApi.reducerPath]: cityApi.reducer,
+    [countryApi.reducerPath]: countryApi.reducer,
     [addressApi.reducerPath]: addressApi.reducer,
     [newsletterApi.reducerPath]: newsletterApi.reducer,
     [measurementApi.reducerPath]: measurementApi.reducer,
-    // [additionalServiceApi.reducerPath]: additionalServiceApi.reducer,
+    [additionalServiceApi.reducerPath]: additionalServiceApi.reducer,
     wishlist,
     app,
     cart,
@@ -63,6 +63,10 @@ export const store = configureStore({
             .concat(orderApi.middleware)
             .concat(productApi.middleware)
             .concat(measurementApi.middleware)
+            .concat(deliveryApi.middleware)
+            .concat(cityApi.middleware)
+            .concat(countryApi.middleware)
+            .concat(additionalServiceApi.middleware)
 })
 
 export const persistor = persistStore(store)

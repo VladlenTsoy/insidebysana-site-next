@@ -6,6 +6,7 @@ import {PromoCode} from "types/PromoCode"
 // import {apiRequest} from "utils/api"
 import {formatPrice} from "utils/formatPrice"
 import Alert from "components/alert/Alert"
+import {DOMAIN_API} from "utils/api"
 
 interface PromoCodeProps {
     setPromoCode: Dispatch<SetStateAction<PromoCode | null>>
@@ -20,8 +21,15 @@ const Promo: React.FC<PromoCodeProps> = ({promoCode, setPromoCode}) => {
     const fetchPromoCode = useCallback(async (code) => {
         setLoading(true)
         try {
-            // const response = await apiRequest("post", "promo-code", {type: "guest", data: {code}})
-            // setPromoCode(response)
+            const response = await fetch(DOMAIN_API + "/promo-code", {
+                method: "post",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(code)
+            })
+            setPromoCode(await response.json())
         } catch (e) {
             // @ts-ignore
             setError(e.message)
@@ -46,7 +54,8 @@ const Promo: React.FC<PromoCodeProps> = ({promoCode, setPromoCode}) => {
             {error && <Alert type="error">{error}</Alert>}
             <form className={styled.promo} onSubmit={onSubmitHandler}>
                 <Input className={styled.promoInput} placeholder="Промо-код" onChange={onChangeHandler} value={code} />
-                <Button type="secondary" typeHtml="submit" filled disabled={!code.length} loading={loading}>Применить</Button>
+                <Button type="secondary" typeHtml="submit" filled disabled={!code.length}
+                        loading={loading}>Применить</Button>
             </form>
             {
                 promoCode &&

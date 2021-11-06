@@ -11,6 +11,7 @@ import {clearCart} from "../../cartApi"
 import {redirectPost} from "utils/redirectPost"
 import {AdditionalService} from "types/AdditionalService"
 import {useUser} from "features/auth/authSlice"
+import {DOMAIN_API} from "../../../../utils/api"
 
 interface OrderCreationProps {
     onClose: () => void
@@ -19,30 +20,30 @@ interface OrderCreationProps {
 
 const OrderCreation: React.FC<OrderCreationProps> = ({onClose, updateOrderId}) => {
     const dispatch = useDispatch()
-    const {detail} = useUser()
+    const {detail, token} = useUser()
     const [promoCode, setPromoCode] = useState<PromoCode | null>(null)
     const [total, setTotal] = useState<number>(0)
     const [step, setStep] = useState("information")
     const [information, setInformation] = useState(
         detail
             ? {
-                  full_name: detail.full_name,
-                  phone: detail.phone,
-                  email: "",
-                  country: 1,
-                  city: "",
-                  address: "",
-                  client_address_id: 0
-              }
+                full_name: detail.full_name,
+                phone: detail.phone,
+                email: "",
+                country: 1,
+                city: "",
+                address: "",
+                client_address_id: 0
+            }
             : {
-                  full_name: "",
-                  phone: "",
-                  email: "",
-                  country: 1,
-                  city: "",
-                  address: "",
-                  client_address_id: 0
-              }
+                full_name: "",
+                phone: "",
+                email: "",
+                country: 1,
+                city: "",
+                address: "",
+                client_address_id: 0
+            }
     )
     const [delivery, setDelivery] = useState<Delivery | null>(null)
     const [additionalService, setAdditionalService] = useState<AdditionalService | null>(null)
@@ -76,24 +77,32 @@ const OrderCreation: React.FC<OrderCreationProps> = ({onClose, updateOrderId}) =
     const onSubmitPayment = useCallback(
         async (paymentId: number) => {
             if (delivery) {
-                // const response = await (detail ? api.user : api.guest).post("/order", {
-                //     payment_id: paymentId,
-                //     delivery_id: delivery.id,
-                //     products: products,
-                //     promo_code: promoCode,
-                //     total_price: total + delivery.price,
-                //     information,
-                //     additionalService
-                // })
-                // if (response.data.status === "success") {
-                //     const {payment_opts} = response.data
-                //
-                //     await dispatch(clearCart())
-                //     if (payment_opts)
-                //         //
-                //         redirectPost(payment_opts.url, payment_opts.form, payment_opts.method)
-                //     else updateOrderId(response.data.order_id)
-                // }
+                const response = await fetch(DOMAIN_API + (token ? "/client/order" : "/order"), {
+                    method: "post",
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        payment_id: paymentId,
+                        delivery_id: delivery.id,
+                        products: products,
+                        promo_code: promoCode,
+                        total_price: total + delivery.price,
+                        information,
+                        additionalService
+                    })
+                })
+                if (response.ok) {
+                    const {payment_opts, order_id} = await response.json()
+
+                    await dispatch(clearCart())
+                    if (payment_opts)
+                        //
+                        redirectPost(payment_opts.url, payment_opts.form, payment_opts.method)
+                    else updateOrderId(order_id)
+                }
             }
         },
         [
@@ -104,7 +113,7 @@ const OrderCreation: React.FC<OrderCreationProps> = ({onClose, updateOrderId}) =
             information,
             dispatch,
             updateOrderId,
-            detail,
+            token,
             additionalService
         ]
     )

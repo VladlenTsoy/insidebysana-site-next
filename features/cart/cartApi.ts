@@ -27,6 +27,7 @@ export const clearCart = createAsyncThunk<[], undefined, ThunkProps>("cart/clear
         fetch(DOMAIN_API + "/client/cart/clear", {
             method: "POST",
             headers: {
+                Authorization: "Bearer " + auth.token,
                 Accept: "application/json",
                 "Content-Type": "application/json"
             }

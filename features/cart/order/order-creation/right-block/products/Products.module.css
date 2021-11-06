@@ -10,7 +10,30 @@
     align-items: center;
 }
 
-.image img {
+
+.imageBlock {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.25rem;
+    background: var(--secondary);
+    user-select: none;
+    display: block;
+}
+
+.imageBlock:before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% / 0.8);
+}
+
+.image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
 }

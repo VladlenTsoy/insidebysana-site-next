@@ -15,8 +15,10 @@ const Products = () => {
         <div className={styled.products}>
             {products.map((product: any) => (
                 <div className={styled.product} key={product.sku}>
-                    <div className={styled.image}>
-                        <ImageBlock src={product.url_thumbnail} alt={product.title} />
+                    <div className={styled.imageBlock}>
+                        <div className={styled.image}>
+                            <ImageBlock src={product.url_thumbnail} alt={product.title} />
+                        </div>
                     </div>
                     <div className={styled.info}>
                         <div className={styled.title}>{product.title}</div>
@@ -36,7 +38,7 @@ const Products = () => {
                         )}
                         <div className={styled.totalPrice}>
                             {product.total_price ? `${formatPrice(product.total_price)} сум` : "Бесплатно"}
-                            {!!(product.promotion && product.qty > 1) && (
+                            {(product.promotion && product.qty > 1) && (
                                 <div>+ {product.promotion} бесплатно</div>
                             )}
                         </div>
