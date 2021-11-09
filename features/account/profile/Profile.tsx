@@ -24,6 +24,7 @@ const Profile = () => {
             setError(null)
             setSuccess(true)
         } catch (e) {
+            // @ts-ignore
             setError(e.message)
             setSubmitting(false)
             setSuccess(false)

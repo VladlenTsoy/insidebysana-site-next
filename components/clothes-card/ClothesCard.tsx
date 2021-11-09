@@ -13,7 +13,7 @@ interface ClothesCardProps {
 const ClothesCard: React.FC<ClothesCardProps> = ({product, priceVisible = false}) => {
     return (
         <div className={`${styled.clothesCard} ${priceVisible && styled.visiblePrice}`}>
-            <Link href={`/product/${product.id}`}>
+            <Link href={`/product/${product.id}`} passHref>
                 <div className={styled.imageBlock}>
                     <div className={styled.image}>
                         <div className={styled.tags}>
@@ -26,7 +26,7 @@ const ClothesCard: React.FC<ClothesCardProps> = ({product, priceVisible = false}
                     </div>
                 </div>
             </Link>
-            <Link href={`/product/${product.id}`}>
+            <Link href={`/product/${product.id}`} passHref>
                 <div className={styled.title}>
                     {product.title}
                 </div>

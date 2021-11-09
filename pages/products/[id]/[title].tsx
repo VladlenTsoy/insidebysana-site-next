@@ -40,6 +40,5 @@ export const getStaticProps: GetStaticProps = async ({params}: any) => {
 export const getStaticPaths: GetStaticPaths<any> = async () => {
     const categories = await GetCategories()
     const paths = categories.map(category => ({params: {id: String(category.id), title: category.url}}))
-    paths.push({params: {id: "all", title: ""}})
     return {paths, fallback: false}
 }
