@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import Title from "components/title/Title"
 import styled from "./Cart.module.css"
 import CartProducts from "./cart-products/CartProducts"
@@ -8,10 +8,14 @@ import {useRouter} from "next/router"
 
 const Cart: React.FC = () => {
     const params = useRouter()
-    const [visible, setVisible] = useState(!!params.query.order)
+    const [visible, setVisible] = useState(!!params.query.order || params.query.order === "")
 
     const openOrder = () => setVisible(true)
     const closeOrder = () => setVisible(false)
+
+    useEffect(() => {
+        setVisible(!!params.query.order || params.query.order === "")
+    }, [params])
 
     return (
         <>

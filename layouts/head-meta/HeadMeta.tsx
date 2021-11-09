@@ -9,8 +9,8 @@ interface HeadMetaProps {
 }
 
 const HeadMeta: React.FC<HeadMetaProps> = ({title, description, image, children}) => {
-    const defaultTitle = "Bellissimo Pizza - Бесплатная доставка пиццы по Ташкенту"
-    const defaultDesc = "Bellissimo Pizza - Бесплатная доставка за 45 минут или пицца бесплатно!"
+    const defaultTitle = "inside by Sana: Бренд одежды в Узбекистане"
+    const defaultDesc = "Идеальные швы, натуральные ткани, местное производство. Бесплатная доставка и примерка по Ташкенту"
     return (
         <Head>
             <title key="head-title">

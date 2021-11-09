@@ -4,6 +4,7 @@ import {GetStaticPaths, GetStaticProps, NextPage} from "next"
 import {GetCategories} from "../../../services/categoryApi"
 import Layout from "../../../layouts/Layout"
 import ProductList from "../../../features/product/product-list/Products"
+import HeadMeta from "../../../layouts/head-meta/HeadMeta"
 
 interface IndexProps {
     categories: Category[]
@@ -12,9 +13,12 @@ interface IndexProps {
 
 const Index: NextPage<IndexProps> = ({categories, category}) => {
     return (
-        <Layout categories={categories}>
-            <ProductList category={category} />
-        </Layout>
+        <>
+            <HeadMeta title={category?.title} />
+            <Layout categories={categories}>
+                <ProductList category={category} />
+            </Layout>
+        </>
     )
 }
 

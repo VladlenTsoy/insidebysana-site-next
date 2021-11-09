@@ -47,7 +47,7 @@ const ModalProductInfo: React.FC<ModalProductInfoProps> = ({product, close}) => 
                 <p className={styled.title}>{product.title}</p>
                 <p className={styled.price}>{formatPrice(product.price, product.discount)} сум</p>
                 <div className={styled.button}>
-                    <Link href="/cart/order">
+                    <Link href="/cart/?order">
                         <Button type="secondary" filled>
                             оформить заказ
                         </Button>

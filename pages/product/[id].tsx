@@ -8,6 +8,7 @@ import {Category} from "types/Category"
 import ProductMore from "features/product/product-more/ProductMore"
 import FeaturedProducts from "features/product/product-more/featured-and-recent/FeaturedProducts"
 import RecentProducts from "features/product/product-more/featured-and-recent/RecentProducts"
+import HeadMeta from "../../layouts/head-meta/HeadMeta"
 
 interface ProductProps {
     product: ProductColor
@@ -23,11 +24,14 @@ const Product: NextPage<ProductProps> = (
     }
 ) => {
     return (
-        <Layout categories={categories}>
-            <ProductMore product={product} />
-            <FeaturedProducts products={featuredProducts} />
-            <RecentProducts />
-        </Layout>
+        <>
+            <HeadMeta title={product.title} image={product.images[0].url} />
+            <Layout categories={categories}>
+                <ProductMore product={product} />
+                <FeaturedProducts products={featuredProducts} />
+                <RecentProducts />
+            </Layout>
+        </>
     )
 }
 

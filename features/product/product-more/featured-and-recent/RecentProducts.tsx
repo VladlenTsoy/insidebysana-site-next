@@ -25,16 +25,19 @@ const RecentProducts: React.FC = () => {
         return {productColorId, ids}
     }
 
-    const {data: products = [], isLoading, isFetching} = useGetRecentProductsByIdQuery(params())
+    const {
+        data,
+        isLoading
+    } = useGetRecentProductsByIdQuery(params())
 
-    if (isLoading || isFetching) return <LoaderBlock />
+    if (isLoading) return <LoaderBlock />
 
-    if (!products.length) return <></>
+    if (!(data && data.length)) return <></>
 
     return (
         <div className={styled.featuredProducts} id="recent-products">
             <Title level={3}>Недавно вы смотрели</Title>
-            <Carousel products={products} />
+            <Carousel products={data} />
         </div>
     )
 }
