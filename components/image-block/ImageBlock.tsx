@@ -22,7 +22,7 @@ const ImageBlock: React.FC<ImageBlockProps> = (
         width,
         height,
         layout = "fill",
-        quality
+        quality = 100
     }
 ) => {
     const [loading, setLoading] = useState(false)
