@@ -23,6 +23,8 @@ const Banner: React.FC<BannerProps> = ({banners}) => {
                 showStatus={false}
                 infiniteLoop={true}
                 showThumbs={false}
+                swipeScrollTolerance={10}
+                preventMovementUntilSwipeScrollTolerance
             >
                 {banners.map((banner, key) => {
                     const router = useRouter()
