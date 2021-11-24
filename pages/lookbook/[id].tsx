@@ -1,6 +1,11 @@
 import React from "react"
 import {GetStaticPaths, GetStaticProps} from "next"
-import {GetLookbook, GetLookbookByCategoryId, GetLookbookCategories, ResponseLookbook} from "services/lookbookApi"
+import {
+    GetLookbookByCategoryId,
+    GetLookbookCategories,
+    GetLookbookCategoriesExceptId,
+    ResponseLookbook
+} from "services/lookbookApi"
 import {GetCategories} from "services/categoryApi"
 import {Category} from "types/Category"
 import {LookbookCategory} from "types/Lookbook"
@@ -29,7 +34,8 @@ export const getStaticProps: GetStaticProps = async ({params}: any) => {
     const {id} = params
     const categories = await GetCategories()
     const lookbook = await GetLookbookByCategoryId(id)
-    const lookbookCategories = await GetLookbookCategories(lookbook.id)
+    const lookbookCategories = await GetLookbookCategoriesExceptId(lookbook.id)
+
     return {
         props: {
             categories,
@@ -41,8 +47,7 @@ export const getStaticProps: GetStaticProps = async ({params}: any) => {
 }
 
 export const getStaticPaths: GetStaticPaths<any> = async () => {
-    const lookbook = await GetLookbook()
-    const lookbookCategories = await GetLookbookCategories(lookbook.id)
+    const lookbookCategories = await GetLookbookCategories()
     const paths = lookbookCategories.map(category => ({params: {id: String(category.id)}}))
     return {paths, fallback: false}
 }

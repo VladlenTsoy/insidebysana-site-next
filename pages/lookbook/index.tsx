@@ -4,7 +4,11 @@ import Layout from "layouts/Layout"
 import {GetStaticProps} from "next"
 import {GetCategories} from "services/categoryApi"
 import Lookbook, {LookbookCategories} from "features/lookbook/Lookbook"
-import {GetLookbook, GetLookbookCategories, ResponseLookbook} from "../../services/lookbookApi"
+import {
+    GetLookbook,
+    GetLookbookCategoriesExceptId,
+    ResponseLookbook
+} from "../../services/lookbookApi"
 import {LookbookCategory} from "../../types/Lookbook"
 
 interface Props {
@@ -28,7 +32,8 @@ export default Index
 export const getStaticProps: GetStaticProps = async () => {
     const categories = await GetCategories()
     const lookbook = await GetLookbook()
-    const lookbookCategories = await GetLookbookCategories(lookbook.id)
+    const lookbookCategories = await GetLookbookCategoriesExceptId(lookbook.id)
+
     return {
         props: {
             categories,

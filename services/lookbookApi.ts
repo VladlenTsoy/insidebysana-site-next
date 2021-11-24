@@ -19,9 +19,21 @@ export const GetLookbook: GetLookbookType = async () => {
     return []
 }
 
-type GetLookbookCategoriesType = (categoryId: number) => Promise<LookbookCategory[]>
+type GetLookbookCategoriesType = () => Promise<LookbookCategory[]>
 
-export const GetLookbookCategories: GetLookbookCategoriesType = async (categoryId) => {
+export const GetLookbookCategories: GetLookbookCategoriesType = async () => {
+    try {
+        const response = await fetch(DOMAIN_API + `/lookbook-categories`)
+        return await response.json()
+    } catch (e) {
+        console.error(e)
+    }
+    return []
+}
+
+type GetLookbookCategoriesExceptIdType = (categoryId: number) => Promise<LookbookCategory[]>
+
+export const GetLookbookCategoriesExceptId: GetLookbookCategoriesExceptIdType = async (categoryId) => {
     try {
         const response = await fetch(DOMAIN_API + `/lookbook-categories/${categoryId}`)
         return await response.json()
@@ -42,5 +54,3 @@ export const GetLookbookByCategoryId: GetLookbookByCategoryIdType = async (categ
     }
     return []
 }
-
-module.exports = {GetLookbook, GetLookbookCategories, GetLookbookByCategoryId}
