@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import styled from "./NavMobile.module.css"
 import MenuIcon from "assets/images/icons/menu.svg"
 import Menu from "./menu/Menu"
@@ -6,9 +6,6 @@ import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import UserOutlined from "@ant-design/icons/UserOutlined"
 import Drawer from "components/drawer/Drawer"
 import Socials from "./socials/Socials"
-import {useDispatch} from "store"
-import {appSelector, changeMobileMenuVisible} from "../../../appSlice"
-import {useSelector} from "react-redux"
 import {useUser} from "features/auth/authSlice"
 import {useRouter} from "next/router"
 import {Category} from "types/Category"
@@ -18,16 +15,15 @@ interface NavMobileProps {
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({categories}) => {
-    const {mobileDrawerVisible} = useSelector(appSelector)
     const router = useRouter()
-    const dispatch = useDispatch()
     const {detail} = useUser()
+    const [visible, setVisible] = useState(false)
 
     // Открыть
-    const onOpenHandler = () => dispatch(changeMobileMenuVisible(true))
+    const onOpenHandler = () => setVisible(true)
 
     // Закрыть
-    const onCloseHandler = () => dispatch(changeMobileMenuVisible(false))
+    const onCloseHandler = () => setVisible(false)
 
     // Переход на аккаунт
     const onAccountHandler = () => router.push("/account")
@@ -37,7 +33,7 @@ const NavMobile: React.FC<NavMobileProps> = ({categories}) => {
             <button className={styled.buttonMenu} onClick={onOpenHandler}>
                 <img src={MenuIcon} alt="" />
             </button>
-            <Drawer width={350} visible={mobileDrawerVisible} maskClosable onClose={onCloseHandler}>
+            <Drawer width={350} visible={visible} maskClosable onClose={onCloseHandler}>
                 <div className={styled.container}>
                     <div className={styled.header}>
                         <div className={styled.close} onClick={onCloseHandler}>
