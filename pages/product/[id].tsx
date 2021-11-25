@@ -48,7 +48,7 @@ export const getStaticProps: GetStaticProps = async ({params}: any) => {
             product,
             featuredProducts
         },
-        revalidate: 10
+        revalidate: 1
     }
 }
 
