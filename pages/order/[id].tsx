@@ -19,19 +19,29 @@ const Index: NextPage<Props> = ({categories}) => {
 
 export default Index
 
-export const getStaticProps: GetStaticProps = async () => {
+// export const getStaticProps: GetStaticProps = async () => {
+//     const categories = await GetCategories()
+//
+//     return {
+//         props: {
+//             categories
+//         },
+//         revalidate: 1
+//     }
+// }
+
+export async function getServerSideProps() {
     const categories = await GetCategories()
 
     return {
         props: {
             categories
-        },
-        revalidate: 10
+        }
     }
 }
 
-export const getStaticPaths: GetStaticPaths<any> = async () => {
-    const orders = await GetOrderList()
-    const paths = orders.map(order => ({params: {id: String(order.id)}}))
-    return {paths, fallback: false}
-}
+// export const getStaticPaths: GetStaticPaths<any> = async () => {
+//     const orders = await GetOrderList()
+//     const paths = orders.map(order => ({params: {id: String(order.id)}}))
+//     return {paths, fallback: false}
+// }
