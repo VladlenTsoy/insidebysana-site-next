@@ -50,7 +50,7 @@ const Banner: React.FC<BannerProps> = ({banners}) => {
                         <ImageBlock src={BannerImage} priority quality={100} />
                         <div className={styles.container}>
                             <div className={styles.info}>
-                                <div className={styles.title}>BLACK FRIDAY</div>
+                                {/*<div className={styles.title}>BLACK FRIDAY</div>*/}
                                 <div className={styles.action}>
                                     <Button filled onClick={() => router.push("/products/all")}>Подробнее</Button>
                                 </div>
