@@ -42,7 +42,7 @@ export const getStaticProps: GetStaticProps = async ({params}: any) => {
             lookbook,
             lookbookCategories
         },
-        revalidate: 10
+        revalidate: 1
     }
 }
 
