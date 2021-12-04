@@ -27,7 +27,7 @@ const Promo: React.FC<PromoCodeProps> = ({promoCode, setPromoCode}) => {
                     Accept: "application/json",
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(code)
+                body: JSON.stringify({code})
             })
             setPromoCode(await response.json())
         } catch (e) {
