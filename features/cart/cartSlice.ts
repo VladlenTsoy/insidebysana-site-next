@@ -25,49 +25,49 @@ const setLocalCart = (skus: ProductColorCart["sku"][]) =>
 // Акция
 const cartPromotion = (products: ProductColorCart[], state: StoreState["cart"]) => {
     if (products && products.length) {
-        const allQty = products.reduce((acc, product) => (acc += product.qty), 0)
+        // const allQty = products.reduce((acc, product) => (acc += product.qty), 0)
         const saveProducts = products.slice()
         //
-        if (allQty >= 4) {
-            const productMinPriceIds = products
-                .sort((a, b) =>
-                    checkDiscount(b.price, b.discount) > checkDiscount(a.price, a.discount) ? -1 : 1
-                )
-                .reduce<any[]>((acc, product) => {
-                    if (acc.length < 2 && product.qty) {
-                        const a = 2 - acc.length
-                        const qty = product.qty > 2 ? 2 : product.qty
-                        const b = a >= qty ? qty : qty - a
-
-                        const _skus = Array(b).fill(product.sku)
-                        return [...acc, ..._skus]
-                    }
-                    return acc
-                }, [])
-
-            const _products = saveProducts.map(product => {
-                const count = productMinPriceIds.reduce((n, x) => n + (x === product.sku), 0)
-                return count
-                    ? {
-                        ...product,
-                        promotion: count,
-                        total_price: checkDiscount(product.price * (product.qty - count), product.discount)
-                    }
-                    : {
-                        ...product,
-                        promotion: 0,
-                        total_price: checkDiscount(product.price * product.qty, product.discount)
-                    }
-            })
-            cartAdapter.setMany(state, _products)
-        } else {
+        // if (allQty >= 4) {
+        //     const productMinPriceIds = products
+        //         .sort((a, b) =>
+        //             checkDiscount(b.price, b.discount) > checkDiscount(a.price, a.discount) ? -1 : 1
+        //         )
+        //         .reduce<any[]>((acc, product) => {
+        //             if (acc.length < 2 && product.qty) {
+        //                 const a = 2 - acc.length
+        //                 const qty = product.qty > 2 ? 2 : product.qty
+        //                 const b = a >= qty ? qty : qty - a
+        //
+        //                 const _skus = Array(b).fill(product.sku)
+        //                 return [...acc, ..._skus]
+        //             }
+        //             return acc
+        //         }, [])
+        //
+        //     const _products = saveProducts.map(product => {
+        //         const count = productMinPriceIds.reduce((n, x) => n + (x === product.sku), 0)
+        //         return count
+        //             ? {
+        //                 ...product,
+        //                 promotion: count,
+        //                 total_price: checkDiscount(product.price * (product.qty - count), product.discount)
+        //             }
+        //             : {
+        //                 ...product,
+        //                 promotion: 0,
+        //                 total_price: checkDiscount(product.price * product.qty, product.discount)
+        //             }
+        //     })
+        //     cartAdapter.setMany(state, _products)
+        // } else {
             const _products = saveProducts.map(product => ({
                 ...product,
                 promotion: 0,
                 total_price: checkDiscount(product.price * product.qty, product.discount)
             }))
             cartAdapter.setMany(state, _products)
-        }
+        // }
     }
 }
 
