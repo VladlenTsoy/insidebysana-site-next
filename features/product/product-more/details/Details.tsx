@@ -62,7 +62,7 @@ const Details: React.FC<DetailsProps> = ({product}) => {
                 {/*</div>*/}
                 <WishlistButton productId={product.id} />
                 <Properties properties={product.properties} productId={product.product_id}>
-                    <Measurements productId={product.product_id} />
+                    <Measurements productId={product.id} />
                 </Properties>
                 {/*<ScrollActionButton/>*/}
             </div>
