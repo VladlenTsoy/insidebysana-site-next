@@ -35,6 +35,7 @@ const PaymentWaiting: React.FC<PaymentWaitingProps> = ({order}) => {
         try {
             setLoading(true)
             const response = await fetch(DOMAIN_API + "/order/pay", {
+                method: "POST",
                 body: JSON.stringify({
                     order_id: order.id,
                     total_price: order.total_price,

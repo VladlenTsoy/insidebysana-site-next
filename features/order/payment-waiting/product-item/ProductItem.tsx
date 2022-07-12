@@ -53,12 +53,12 @@ const ProductItem: React.FC<ProductItemProps> = ({product}) => {
                 <>
                     <div className={styled.qty}>{product.qty}</div>
                     <div className={styled.price}>
-                        <div className={styled.dicount}>
+                        {!!product.discount && <div className={styled.dicount}>
                             <span className={styled.dicountPrice}>
                                 {formatPrice(product.qty * product.price)}
                             </span>{" "}
                             - <span className={styled.percent}>{product.discount}%</span>
-                        </div>
+                        </div>}
                         <div>{formatPrice(product.qty * product.price, product.discount)} сум</div>
                     </div>
                 </>
