@@ -38,7 +38,7 @@ const Products = () => {
                         )}
                         <div className={styled.totalPrice}>
                             {product.total_price ? `${formatPrice(product.total_price)} сум` : "Бесплатно"}
-                            {(product.promotion && product.qty > 1) && (
+                            {Boolean(product.promotion && product.qty > 1) && (
                                 <div>+ {product.promotion} бесплатно</div>
                             )}
                         </div>
