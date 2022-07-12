@@ -32,11 +32,11 @@ const NavDesktop: React.FC<NavDesktopProps> = ({categories}) => {
                     </a>
                 </ProductsMenu>
             </li>
-            <li>
-                <Link href="/lookbook">
-                    <a className={activeUrl === "/lookbook" ? styled.active : ""}>LOOKBOOK</a>
-                </Link>
-            </li>
+            {/*<li>*/}
+            {/*    <Link href="/lookbook">*/}
+            {/*        <a className={activeUrl === "/lookbook" ? styled.active : ""}>LOOKBOOK</a>*/}
+            {/*    </Link>*/}
+            {/*</li>*/}
             <li>
                 <Link href="/about-us">
                     <a className={activeUrl === "/about-us" ? styled.active : ""}>О Нас</a>

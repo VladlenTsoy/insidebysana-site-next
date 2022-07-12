@@ -36,11 +36,11 @@ const Menu: React.FC<MenuProps> = ({categories}) => {
                         </Panel>
                     </Collapse>
                 </li>
-                <li>
-                    <Link href="/lookbook">
-                        <a>LookBook</a>
-                    </Link>
-                </li>
+                {/*<li>*/}
+                {/*    <Link href="/lookbook">*/}
+                {/*        <a>LookBook</a>*/}
+                {/*    </Link>*/}
+                {/*</li>*/}
                 <li>
                     <Link href="/about-us">
                         <a>О нас</a>
