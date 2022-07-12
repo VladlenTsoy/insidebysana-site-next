@@ -30,9 +30,12 @@ const Footer = () => {
                             Instagram
                         </a>
                         <a href="https://www.facebook.com/insidebysana" target="_blank" rel="noreferrer">
+                            Facebook
+                        </a>
+                        <a href="https://t.me/insidesana" target="_blank" rel="noreferrer">
                             Telegram
                         </a>
-                        <Link href="/lookbook">Lookbook</Link>
+                        {/*<Link href="/lookbook">Lookbook</Link>*/}
                     </div>
                 </div>
                 <div className={styled.footerColumn}>
