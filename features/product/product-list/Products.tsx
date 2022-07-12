@@ -18,7 +18,7 @@ const ProductList: React.FC<ProductListProps> = ({category}) => {
 
     return (
         <div>
-            <Title level={1}>{category?.title || "Новинки"}</Title>
+            <Title level={1}>{category?.title || "Товары"}</Title>
             <FilterSort />
             {loading ? (
                 <LoaderBlock key="product-loading" />
