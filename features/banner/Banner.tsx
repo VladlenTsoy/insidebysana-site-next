@@ -5,6 +5,7 @@ import Button from "components/button/Button"
 import {Carousel} from "react-responsive-carousel"
 import {BannerType} from "types/Banner"
 import {useRouter} from "next/router"
+import {useScreenSize} from "../../hooks/useScreenSize"
 
 interface BannerProps {
     banners: BannerType[]
@@ -12,6 +13,7 @@ interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({banners}) => {
     const router = useRouter()
+    const {width} = useScreenSize()
 
     return (
         <div className={styles.wrapper}>
@@ -32,7 +34,12 @@ const Banner: React.FC<BannerProps> = ({banners}) => {
                     const onClickHandler = () => router.push(banner.button_link)
 
                     return <div className={styles.slider} key={key}>
-                        <ImageBlock src={banner.url_image} priority={key === 0} quality={100} />
+                        {width > 767 ?
+                            !!banner.url_image &&
+                            <ImageBlock src={banner.url_image} priority={key === 0} quality={100} /> :
+                            !!banner.url_image_mobile &&
+                            <ImageBlock src={banner.url_image_mobile} priority={key === 0} quality={100} />
+                        }
                         <div className={styles.container}>
                             <div className={styles.info}>
                                 <div className={styles.title}>{banner.title}</div>
