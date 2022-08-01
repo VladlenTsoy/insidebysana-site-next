@@ -137,7 +137,6 @@ export const Purchase = (order: {
                 value: order.total_price,
                 tax: "0.00",
                 shipping: order.delivery.price,
-                currency: "SUM",
                 coupon: order.promo_code?.code,
                 items: order.products.map((product) => ({
                     item_name: product.title,
