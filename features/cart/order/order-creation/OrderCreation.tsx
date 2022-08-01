@@ -12,6 +12,7 @@ import {redirectPost} from "utils/redirectPost"
 import {AdditionalService} from "types/AdditionalService"
 import {useUser} from "features/auth/authSlice"
 import {DOMAIN_API} from "../../../../utils/api"
+import {Purchase} from "../../../../utils/analyticEvents"
 
 interface OrderCreationProps {
     onClose: () => void
@@ -96,6 +97,15 @@ const OrderCreation: React.FC<OrderCreationProps> = ({onClose, updateOrderId}) =
                 })
                 if (response.ok) {
                     const {payment_opts, order_id} = await response.json()
+                    //
+                    Purchase({
+                        id: order_id,
+                        promo_code: promoCode,
+                        payment_id: paymentId,
+                        delivery: delivery,
+                        products: products,
+                        total_price: total + delivery.price,
+                    })
 
                     await dispatch(clearCart())
                     if (payment_opts)

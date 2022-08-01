@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {GetStaticPaths, GetStaticProps, NextPage} from "next"
 import {GetFeaturedProductsById, GetProductById, GetProductIds} from "services/productApi"
 import {ProductColor, ProductColorCard} from "types/productColor"
@@ -9,6 +9,7 @@ import ProductMore from "features/product/product-more/ProductMore"
 import FeaturedProducts from "features/product/product-more/featured-and-recent/FeaturedProducts"
 import RecentProducts from "features/product/product-more/featured-and-recent/RecentProducts"
 import HeadMeta from "../../layouts/head-meta/HeadMeta"
+import {ViewItem} from "../../utils/analyticEvents"
 
 interface ProductProps {
     product: ProductColor
@@ -23,6 +24,10 @@ const Product: NextPage<ProductProps> = (
         featuredProducts
     }
 ) => {
+    useEffect(() => {
+        if (product) ViewItem(product)
+    }, [product])
+
     return (
         <>
             <HeadMeta title={product.title} image={product.images[0].url} />

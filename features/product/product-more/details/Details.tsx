@@ -60,7 +60,7 @@ const Details: React.FC<DetailsProps> = ({product}) => {
                  {/*<div className={styled.buyNow}>*/}
                 {/*<Button type="primary" filled block>Купить сейчас</Button>*/}
                 {/*</div>*/}
-                <WishlistButton productId={product.id} />
+                <WishlistButton product={product} />
                 <Properties properties={product.properties} productId={product.product_id}>
                     <Measurements productId={product.id} />
                 </Properties>

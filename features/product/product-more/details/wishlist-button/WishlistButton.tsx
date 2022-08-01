@@ -8,22 +8,26 @@ import {useDispatch} from "store"
 import {wishlistSelector} from "features/wishlist/wishlistSlice"
 import {useSelector} from "react-redux"
 import {removeFromWishlist, addToWishlist} from "features/wishlist/wishlistApi"
+import {AddToWishlist} from "../../../../../utils/analyticEvents"
 
 interface WishlistButtonProps {
-    productId: ProductColor["id"]
+    product: ProductColor
 }
 
-const WishlistButton: React.FC<WishlistButtonProps> = ({productId}) => {
+const WishlistButton: React.FC<WishlistButtonProps> = ({product}) => {
     const wishlist = useSelector(wishlistSelector)
     const dispatch = useDispatch()
 
-    const addToWishlistHandler = () => dispatch(addToWishlist(productId))
+    const addToWishlistHandler = () => {
+        AddToWishlist(product)
+        dispatch(addToWishlist(product.id))
+    }
 
-    const removeFromWishlistHandler = () => dispatch(removeFromWishlist(productId))
+    const removeFromWishlistHandler = () => dispatch(removeFromWishlist(product.id))
 
     return (
         <div className={styled.addToWishlist}>
-            {wishlist.items.includes(productId) ? (
+            {wishlist.items.includes(product.id) ? (
                 <Button
                     type="primary"
                     link

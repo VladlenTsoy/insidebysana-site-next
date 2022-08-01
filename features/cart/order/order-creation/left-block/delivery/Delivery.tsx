@@ -7,6 +7,8 @@ import TypesDelivery from "./types-delivery/TypesDelivery"
 import {Delivery} from "types/Delivery"
 import EmptyBlock from "components/empty-block/EmptyBlock"
 import {useGetDeliveriesQuery} from "./deliveryApi"
+import {AddShippingInfo} from "../../../../../../utils/analyticEvents"
+import {useSelectAllProductCart} from "../../../../cartSlice"
 
 interface DeliveryProps {
     delivery: Delivery | null
@@ -23,6 +25,7 @@ const DeliveryBlock: React.FC<DeliveryProps> = ({
     onSubmitDelivery,
     backInformation
 }) => {
+    const products = useSelectAllProductCart()
     const {data: typesDelivery = [], isLoading} = useGetDeliveriesQuery(information.country)
     const [selectDelivery, setSelectDelivery] = useState<Delivery | null>(delivery)
 
@@ -30,6 +33,7 @@ const DeliveryBlock: React.FC<DeliveryProps> = ({
         const select = typesDelivery.find(val => val.id === Number(value)) || null
         setSelectDelivery(select)
         onChangeDelivery(select)
+        AddShippingInfo(products)
     }
 
     const onClickHandler = () => {

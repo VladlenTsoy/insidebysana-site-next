@@ -8,57 +8,28 @@ import HeadMeta from "../layouts/head-meta/HeadMeta"
 function MyApp({Component, pageProps}: AppProps) {
     return <>
         <HeadMeta>
-            {/* Facebook Pixel Code */}
+            {/* Google Tag Manager */}
             <script dangerouslySetInnerHTML={{
-                __html: `!function(f,b,e,v,n,t,s)
-                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                    n.queue=[];t=b.createElement(e);t.async=!0;
-                    t.src=v;s=b.getElementsByTagName(e)[0];
-                    s.parentNode.insertBefore(t,s)}(window, document,'script',
-                'https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', '230761784901784');
-                fbq('track', 'PageView');`
+                __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-NZ25ZS3');`
             }} />
-            <noscript>
-                <img
-                    height="1" width="1" style={{display: "none"}}
-                    src="https://www.facebook.com/tr?id=230761784901784&ev=PageView&noscript=1"
-                />
-            </noscript>
-            {/* End Facebook Pixel Code */}
-            {/* Yandex.Metrika counter  */}
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-                (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-                ym(83295820, "init", {
-                clickmap:true,
-                trackLinks:true,
-                accurateTrackBounce:true,
-                webvisor:true,
-                ecommerce:"dataLayer"
-            });`
-                }}
-            />
-            <noscript>
-                <div>
-                    <img
-                        src="https://mc.yandex.ru/watch/83295820" alt=""
-                        style={{position: "absolute", left: "-9999px"}}
-                    />
-                </div>
-            </noscript>
-            {/* Yandex.Metrika counter  */}
+            {/* End Google Tag Manager */}
         </HeadMeta>
         <Provider store={store}>
             <PersistGate persistor={persistor} loading={null}>
                 <Component {...pageProps} />
             </PersistGate>
         </Provider>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+            <iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-NZ25ZS3"
+                height="0" width="0" style={{display: "none", visibility: "hidden"}} />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
     </>
 }
 

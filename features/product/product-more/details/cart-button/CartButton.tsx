@@ -11,6 +11,7 @@ import ModalProductInfo from "./ModalProductInfo"
 import "rc-dialog/assets/index.css"
 import {useState} from "react"
 import {useCallback} from "react"
+import {AddToCart} from "../../../../../utils/analyticEvents"
 
 interface CartButtonProps {
     product: ProductColor
@@ -26,6 +27,7 @@ const CartButton: React.FC<CartButtonProps> = ({product, sizeId, outputErrorSize
     const addToCartHandler = () => {
         const size = product.sizes.find(size => Number(size.size_id) === Number(sizeId))
         if (sizeId && size) {
+            AddToCart(product)
             dispatch(addToCart(`PC${product.id}S${sizeId}`))
             setVisible(true)
         } else outputErrorSizeHandler()
