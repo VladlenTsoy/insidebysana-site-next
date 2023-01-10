@@ -4,6 +4,7 @@ import {persistor, store} from "../store"
 import {Provider} from "react-redux"
 import {PersistGate} from "redux-persist/integration/react"
 import HeadMeta from "../layouts/head-meta/HeadMeta"
+import {Analytics} from "@vercel/analytics/react"
 
 function MyApp({Component, pageProps}: AppProps) {
     return <>
@@ -30,6 +31,7 @@ function MyApp({Component, pageProps}: AppProps) {
                 height="0" width="0" style={{display: "none", visibility: "hidden"}} />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
+        <Analytics />
     </>
 }
 
