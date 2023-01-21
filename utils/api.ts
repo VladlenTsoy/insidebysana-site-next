@@ -1,7 +1,7 @@
 import {removeCookie, setCookie} from "./cookie"
 
 
-if(!process.env.APP_DOMAIN_API) throw Error("Error REACT_APP_DOMAIN_API not find!")
+if(!process.env.APP_DOMAIN_API) throw Error("Error APP_DOMAIN_API not find!")
 
 export const DOMAIN = process.env.APP_DOMAIN_API
 export const DOMAIN_API = `${DOMAIN}/api`
