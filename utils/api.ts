@@ -1,7 +1,10 @@
 import {removeCookie, setCookie} from "./cookie"
 
-export const DOMAIN_API =
-    process.env.NODE_ENV === "production" ? "https://api.insidebysana.uz/api" : "http://localhost:9000/api"
+
+if(!process.env.APP_DOMAIN_API) throw Error("Error REACT_APP_DOMAIN_API not find!")
+
+export const DOMAIN = process.env.APP_DOMAIN_API
+export const DOMAIN_API = `${DOMAIN}/api`
 
 const TOKEN_NAME = "site_token_access"
 
