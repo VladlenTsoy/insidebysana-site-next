@@ -47,3 +47,40 @@
 .dot[disabled] {
     background: var(--secondary-text);
 }
+
+/* NEW IMAGE */
+
+.blockImages {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 150px;
+    gap: 1.5rem;
+    margin-top: 50px;
+    height: 700px;
+}
+
+.blockImages .selectedImage {
+    width: 100%;
+}
+
+.blockImages .scrollContainer  {
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.blockImages .scrollContainer .listImages {
+    display: grid;
+    gap: 1rem;
+}
+
+.blockImages .listImages .itemImage {
+    width: 150px;
+    height: 150px;
+    opacity: .5;
+    cursor: pointer;
+}
+
+.blockImages .listImages .itemImage.active {
+    opacity: 1;
+}
