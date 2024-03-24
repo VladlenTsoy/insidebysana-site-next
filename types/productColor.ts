@@ -46,4 +46,9 @@ export interface ProductColorCard {
         end_at: string
     } | null
     is_new?: boolean
+    sizes: {
+        size_id: number
+        title: string
+        qty: number
+    }[]
 }
