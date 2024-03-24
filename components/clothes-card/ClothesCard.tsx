@@ -31,6 +31,13 @@ const ClothesCard: React.FC<ClothesCardProps> = ({product, priceVisible = false}
                     {product.title}
                 </div>
             </Link>
+            <div className={styled.sizes}>
+                {product?.sizes?.map(size =>
+                    <div key={size.size_id}>
+                        {size.title}
+                    </div>
+                )}
+            </div>
             <div className={styled.price}>
                 {product.discount && <div className={styled.prevPrice}>{formatPrice(product.price)} сум</div>}
                 <div className={styled.mainPrice}>{formatPrice(product.price, product.discount)} сум</div>
